@@ -1,0 +1,9 @@
+com/minimart/ordersvc/OrderSvcApplication.class
+com/minimart/ordersvc/models/PurchaseOrder.class
+com/minimart/ordersvc/services/OrderService.class
+com/minimart/ordersvc/controllers/OrderController.class
+com/minimart/ordersvc/models/OrderStatus.class
+com/minimart/ordersvc/models/OrderRequest.class
+com/minimart/ordersvc/services/OrderInventoryEventListener.class
+com/minimart/ordersvc/services/OrderInventoryEventListener$1.class
+com/minimart/ordersvc/repositories/IPurchaseOrderRepository.class

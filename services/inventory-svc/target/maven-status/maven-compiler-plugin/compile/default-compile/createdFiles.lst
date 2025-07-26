@@ -1,0 +1,6 @@
+com/minimart/inventorysvc/InventorySvcApplication.class
+com/minimart/inventorysvc/models/InventoryItem.class
+com/minimart/inventorysvc/services/SeedService.class
+com/minimart/inventorysvc/repositories/IInventoryItemRepository.class
+com/minimart/inventorysvc/services/InventoryConsumer.class
+com/minimart/inventorysvc/services/InventoryService.class

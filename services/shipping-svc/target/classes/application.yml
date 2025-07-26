@@ -1,0 +1,8 @@
+spring:
+  application.name: shipping-svc
+  data.mongodb.uri: mongodb://shipping:shipping@mongo_shipping:27017/shippingdb?authSource=admin
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: shipping-svc

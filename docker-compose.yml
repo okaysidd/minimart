@@ -1,0 +1,105 @@
+version: "3.9"
+
+x-otel-env: &otel-env
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+  OTEL_SERVICE_NAME: ${COMPOSE_SERVICE}
+
+services:
+  zookeeper:
+    image: bitnami/zookeeper:3
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+
+  kafka:
+    image: bitnami/kafka:3
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    depends_on: [ zookeeper ]
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.57
+    ports:
+      - "16686:16686"     # UI
+      - "4317:4317"       # OTLP gRPC intake
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"              # ✅ enable OTLP gRPC
+      COLLECTOR_OTLP_GRPC_HOST: "0.0.0.0"
+      COLLECTOR_OTLP_GRPC_PORT: 4317
+      LOG_LEVEL: info
+
+  postgres_order:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: order
+      POSTGRES_PASSWORD: order
+      POSTGRES_DB: orderdb
+    ports: [ "5433:5432" ]
+
+  order-svc:
+    build: ./services/order-svc
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_SERVICE_NAME: order-svc
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8081:8080"
+    depends_on: [ kafka, postgres_order, jaeger ]
+
+  inventory-svc:
+    build: ./services/inventory-svc
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_SERVICE_NAME: inventory-svc
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8082:8080"
+    depends_on: [ kafka, postgres_order, jaeger ]
+
+  postgres_payment:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: paymentdb
+      POSTGRES_USER: payment
+      POSTGRES_PASSWORD: payment
+    ports: [ "5436:5432" ]
+
+  payment-svc:
+    build: ./services/payment-svc
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_SERVICE_NAME: payment-svc
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8083:8080"
+    depends_on: [ kafka, postgres_order, jaeger ]
+
+  mongo_shipping:
+    image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: shipping
+      MONGO_INITDB_ROOT_PASSWORD: shipping
+      MONGO_INITDB_DATABASE: shippingdb
+    ports: [ "27018:27017" ]
+
+  shipping-svc:
+    build: ./services/shipping-svc
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_SERVICE_NAME: shipping-svc
+      OTEL_METRICS_EXPORTER: none
+      OTEL_LOGS_EXPORTER: none
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8084:8080"
+    depends_on: [ kafka, postgres_order, jaeger ]

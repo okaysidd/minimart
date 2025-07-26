@@ -1,0 +1,6 @@
+/Users/siddharthasehgal/Documents/Work/minimart/services/inventory-svc/src/main/java/com/minimart/inventorysvc/InventorySvcApplication.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/inventory-svc/src/main/java/com/minimart/inventorysvc/models/InventoryItem.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/inventory-svc/src/main/java/com/minimart/inventorysvc/repositories/IInventoryItemRepository.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/inventory-svc/src/main/java/com/minimart/inventorysvc/services/InventoryConsumer.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/inventory-svc/src/main/java/com/minimart/inventorysvc/services/InventoryService.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/inventory-svc/src/main/java/com/minimart/inventorysvc/services/SeedService.java
