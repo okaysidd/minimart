@@ -58,8 +58,20 @@ Other services communicate via Kafka and do not expose direct REST endpoints.
 - **Metrics:** Exposed via Prometheus and visualized in Grafana.
 - Configuration files: `otel-collector-config.yml`, `prometheus.yml`
 
-## Load Testing
-- The `k6-load-test/` directory is reserved for load testing scripts (currently empty).
+## Load Testing with k6
+
+Load testing is supported using [k6](https://k6.io/) with Prometheus remote write output for metrics collection. Load test scripts should be placed in the `loadtests/` directory (e.g., `loadtests/checkout_test.js`).
+
+To run a load test and send metrics to Prometheus via the OpenTelemetry Collector, use the following command:
+
+```sh
+docker compose run --rm \
+  --entrypoint k6 \
+  -v "$(pwd)/loadtests:/scripts" \
+  k6 run /scripts/checkout_test.js
+```
+
+**Note:** The k6 → OpenTelemetry Collector → Prometheus flow uses Prometheus **scrape** (pull) to collect metrics from the otel-collector, rather than k6 pushing metrics via remote write. The otel-collector exposes k6 metrics on its Prometheus exporter endpoint, which Prometheus scrapes at regular intervals.
 
 ## Development
 - Each service is a standalone Spring Boot application with its own `pom.xml` and Dockerfile.

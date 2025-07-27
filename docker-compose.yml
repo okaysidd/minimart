@@ -17,11 +17,21 @@ services:
       ALLOW_PLAINTEXT_LISTENER: "yes"
     depends_on: [ zookeeper ]
 
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.92.0
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317"    # OTLP gRPC receiver
+      - "4318:4318"    # OTLP HTTP receiver
+      - "8888:8889"    # Prometheus scrape endpoint
+
   jaeger:
     image: jaegertracing/all-in-one:1.57
     ports:
       - "16686:16686"     # UI
-      - "4317:4317"       # OTLP gRPC intake
+      - "4319:4317"       # OTLP gRPC intake
     environment:
       COLLECTOR_OTLP_ENABLED: "true"              # ✅ enable OTLP gRPC
       COLLECTOR_OTLP_GRPC_HOST: "0.0.0.0"
@@ -121,20 +131,14 @@ services:
       - "8085:8080"
     depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
 
-  otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.92.0
-    command: [ "--config=/etc/otel-collector-config.yml" ]
-    volumes:
-      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
-    ports:
-      - "9464:9464"
-      - "9465:9465"
-
   prometheus:
     image: prom/prometheus:v2.52.0
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports: [ "9090:9090" ]
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.enable-remote-write-receiver
     depends_on: [ otel-collector ]
 
   grafana:
@@ -146,5 +150,7 @@ services:
     image: grafana/k6:0.50.0
     entrypoint: [ "sh", "-c", "sleep infinity" ]
     environment:
-      K6_PROMETHEUS_RW_SERVER_URL: http://otel-collector:9465/api/v1/write
+      - OTEL_METRICS_EXPORTER=otlp
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+      - OTEL_EXPORTER_OTLP_INSECURE=true
     depends_on: [ otel-collector ]
