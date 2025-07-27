@@ -1,6 +1,6 @@
-/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/shippingsvc/PaymentSvcApplication.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/shippingsvc/models/Payment.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/shippingsvc/models/PaymentStatus.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/shippingsvc/repositories/IPaymentRepository.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/shippingsvc/services/PaymentEventListener.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/shippingsvc/services/PaymentProcessor.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/paymentsvc/PaymentSvcApplication.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/paymentsvc/models/Payment.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/paymentsvc/models/PaymentStatus.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/paymentsvc/repositories/IPaymentRepository.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/paymentsvc/services/PaymentEventListener.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/payment-svc/src/main/java/com/minimart/paymentsvc/services/PaymentProcessor.java

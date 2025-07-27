@@ -1,6 +1,6 @@
-/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/shippingsvc/ShippingSvcApplication.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/shippingsvc/models/Shipment.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/shippingsvc/models/ShippingStatus.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/shippingsvc/repositories/IShippingRepository.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/shippingsvc/services/ShippingListener.java
-/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/shippingsvc/services/ShippingService.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/paymentsvc/ShippingSvcApplication.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/paymentsvc/models/Shipment.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/paymentsvc/models/ShippingStatus.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/paymentsvc/repositories/IShippingRepository.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/paymentsvc/services/ShippingListener.java
+/Users/siddharthasehgal/Documents/Work/minimart/services/shipping-svc/src/main/java/com/minimart/paymentsvc/services/ShippingService.java

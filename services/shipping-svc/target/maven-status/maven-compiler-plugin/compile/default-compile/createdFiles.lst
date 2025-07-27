@@ -1,8 +1,8 @@
-com/minimart/shippingsvc/models/Shipment$ShipmentBuilder.class
-com/minimart/shippingsvc/repositories/IShippingRepository.class
-com/minimart/shippingsvc/ShippingSvcApplication.class
-com/minimart/shippingsvc/services/ShippingListener.class
-com/minimart/shippingsvc/services/ShippingService.class
-com/minimart/shippingsvc/models/Shipment.class
-com/minimart/shippingsvc/models/ShippingStatus.class
-com/minimart/shippingsvc/services/ShippingListener$1.class
+com/minimart/paymentsvc/models/Shipment$ShipmentBuilder.class
+com/minimart/paymentsvc/ShippingSvcApplication.class
+com/minimart/paymentsvc/models/Shipment.class
+com/minimart/paymentsvc/services/ShippingService.class
+com/minimart/paymentsvc/services/ShippingListener.class
+com/minimart/paymentsvc/repositories/IShippingRepository.class
+com/minimart/paymentsvc/models/ShippingStatus.class
+com/minimart/paymentsvc/services/ShippingListener$1.class

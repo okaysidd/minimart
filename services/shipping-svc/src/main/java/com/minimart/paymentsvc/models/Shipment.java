@@ -1,4 +1,4 @@
-package com.minimart.shippingsvc.models;
+package com.minimart.paymentsvc.models;
 
 import lombok.Builder;
 import lombok.Data;

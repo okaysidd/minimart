@@ -1,4 +1,4 @@
-package com.minimart.notificationsvc.services;
+package com.minimart.inventorysvc.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

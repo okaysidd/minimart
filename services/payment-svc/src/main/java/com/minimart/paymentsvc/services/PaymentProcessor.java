@@ -1,8 +1,8 @@
-package com.minimart.shippingsvc.services;
+package com.minimart.paymentsvc.services;
 
-import com.minimart.shippingsvc.models.Payment;
-import com.minimart.shippingsvc.models.PaymentStatus;
-import com.minimart.shippingsvc.repositories.IPaymentRepository;
+import com.minimart.paymentsvc.models.Payment;
+import com.minimart.paymentsvc.models.PaymentStatus;
+import com.minimart.paymentsvc.repositories.IPaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
-package com.minimart.shippingsvc.services;
+package com.minimart.paymentsvc.services;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minimart.shippingsvc.models.Payment;
-import com.minimart.shippingsvc.models.PaymentStatus;
+import com.minimart.paymentsvc.models.Payment;
+import com.minimart.paymentsvc.models.PaymentStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

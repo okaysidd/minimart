@@ -1,6 +1,6 @@
-package com.minimart.shippingsvc.repositories;
+package com.minimart.paymentsvc.repositories;
 
-import com.minimart.shippingsvc.models.Payment;
+import com.minimart.paymentsvc.models.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 

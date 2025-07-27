@@ -1,8 +1,8 @@
-package com.minimart.shippingsvc.services;
+package com.minimart.paymentsvc.services;
 
-import com.minimart.shippingsvc.models.Shipment;
-import com.minimart.shippingsvc.models.ShippingStatus;
-import com.minimart.shippingsvc.repositories.IShippingRepository;
+import com.minimart.paymentsvc.models.Shipment;
+import com.minimart.paymentsvc.models.ShippingStatus;
+import com.minimart.paymentsvc.repositories.IShippingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

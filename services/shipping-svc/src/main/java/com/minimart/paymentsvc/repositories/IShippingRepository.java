@@ -1,6 +1,6 @@
-package com.minimart.shippingsvc.repositories;
+package com.minimart.paymentsvc.repositories;
 
-import com.minimart.shippingsvc.models.Shipment;
+import com.minimart.paymentsvc.models.Shipment;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

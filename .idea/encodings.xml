@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/services/inventory-svc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/inventory-svc/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/notification-svc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/notification-svc/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/order-svc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/payment-svc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/payment-svc/src/main/resources" charset="UTF-8" />

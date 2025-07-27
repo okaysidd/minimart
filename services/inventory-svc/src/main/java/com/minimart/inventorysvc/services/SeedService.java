@@ -1,7 +1,7 @@
-package com.minimart.notificationsvc.services;
+package com.minimart.inventorysvc.services;
 
-import com.minimart.notificationsvc.models.InventoryItem;
-import com.minimart.notificationsvc.repositories.IInventoryItemRepository;
+import com.minimart.inventorysvc.models.InventoryItem;
+import com.minimart.inventorysvc.repositories.IInventoryItemRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

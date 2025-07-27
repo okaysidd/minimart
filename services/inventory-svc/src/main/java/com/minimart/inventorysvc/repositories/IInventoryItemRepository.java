@@ -1,6 +1,6 @@
-package com.minimart.notificationsvc.repositories;
+package com.minimart.inventorysvc.repositories;
 
-import com.minimart.notificationsvc.models.InventoryItem;
+import com.minimart.inventorysvc.models.InventoryItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IInventoryItemRepository extends JpaRepository<InventoryItem, String> {

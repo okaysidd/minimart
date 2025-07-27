@@ -1,0 +1,9 @@
+spring:
+  data:
+    redis:
+      host: redis_notify
+      port: 6379
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: notification-svc

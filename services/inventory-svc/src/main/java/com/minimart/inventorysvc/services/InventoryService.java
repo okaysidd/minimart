@@ -1,8 +1,8 @@
-package com.minimart.notificationsvc.services;
+package com.minimart.inventorysvc.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minimart.notificationsvc.models.InventoryItem;
-import com.minimart.notificationsvc.repositories.IInventoryItemRepository;
+import com.minimart.inventorysvc.models.InventoryItem;
+import com.minimart.inventorysvc.repositories.IInventoryItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;

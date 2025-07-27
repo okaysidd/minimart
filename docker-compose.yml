@@ -1,7 +1,7 @@
 version: "3.9"
 
 x-otel-env: &otel-env
-  OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
   OTEL_SERVICE_NAME: ${COMPOSE_SERVICE}
 
 services:
@@ -39,28 +39,28 @@ services:
   order-svc:
     build: ./services/order-svc
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       OTEL_SERVICE_NAME: order-svc
-      OTEL_METRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: otlp
       OTEL_LOGS_EXPORTER: none
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8081:8080"
-    depends_on: [ kafka, postgres_order, jaeger ]
+    depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
 
   inventory-svc:
     build: ./services/inventory-svc
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       OTEL_SERVICE_NAME: inventory-svc
-      OTEL_METRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: otlp
       OTEL_LOGS_EXPORTER: none
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8082:8080"
-    depends_on: [ kafka, postgres_order, jaeger ]
+    depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
 
   postgres_payment:
     image: postgres:16
@@ -73,15 +73,15 @@ services:
   payment-svc:
     build: ./services/payment-svc
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       OTEL_SERVICE_NAME: payment-svc
-      OTEL_METRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: otlp
       OTEL_LOGS_EXPORTER: none
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8083:8080"
-    depends_on: [ kafka, postgres_order, jaeger ]
+    depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
 
   mongo_shipping:
     image: mongo:7
@@ -94,12 +94,52 @@ services:
   shipping-svc:
     build: ./services/shipping-svc
     environment:
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
       OTEL_SERVICE_NAME: shipping-svc
-      OTEL_METRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: otlp
       OTEL_LOGS_EXPORTER: none
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8084:8080"
-    depends_on: [ kafka, postgres_order, jaeger ]
+    depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
+
+  redis_notify:
+    image: redis:7-alpine
+    ports: [ "6380:6379" ]
+
+  notification-svc:
+    build: ./services/notification-svc
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_SERVICE_NAME: notification-svc
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_LOGS_EXPORTER: none
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8085:8080"
+    depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.94.0
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      #      - "4317:4317"     # OTLP gRPC IN
+      #      - "4318:4318"     # OTLP HTTP  IN
+      - "9464:9464"     # Prometheus scrape OUT
+    depends_on: [ jaeger ]
+
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports: [ "9090:9090" ]
+    depends_on: [ otel-collector ]
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    ports: [ "3000:3000" ]
+    depends_on: [ prometheus ]
