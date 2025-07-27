@@ -122,15 +122,12 @@ services:
     depends_on: [ kafka, postgres_order, jaeger, otel-collector ]
 
   otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.94.0
+    image: otel/opentelemetry-collector-contrib:0.92.0
     command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
-      #      - "4317:4317"     # OTLP gRPC IN
-      #      - "4318:4318"     # OTLP HTTP  IN
-      - "9464:9464"     # Prometheus scrape OUT
-    depends_on: [ jaeger ]
+      - "9464:9464"
 
   prometheus:
     image: prom/prometheus:v2.52.0
@@ -143,3 +140,10 @@ services:
     image: grafana/grafana:11.0.0
     ports: [ "3000:3000" ]
     depends_on: [ prometheus ]
+
+  k6:
+    image: grafana/k6:0.50.0
+    entrypoint: [ "sh", "-c", "sleep infinity" ]
+    environment:
+      K6_PROMETHEUS_RW_SERVER_URL: http://otel-collector:9464/api/v1/write
+    depends_on: [ otel-collector ]

@@ -1,31 +1,25 @@
-# otel-collector-config.yml
 receivers:
   otlp:
     protocols:
-      grpc:          # 4317
-      http:          # 4318
+      grpc:
+      http:
+  prometheusremotewrite:
+    endpoint: 0.0.0.0:9464
 
 processors:
   batch:
 
 exporters:
-  # send TRACES to Jaeger via OTLP gRPC
-  otlp/jaeger:
-    endpoint: jaeger:4317
-    tls:
-      insecure: true
-
-  # expose METRICS in Prometheus format
   prometheus:
     endpoint: 0.0.0.0:9464
 
 service:
   pipelines:
+    metrics:
+      receivers: [ otlp, prometheusremotewrite ]
+      processors: [ batch ]
+      exporters: [ prometheus ]
     traces:
       receivers: [ otlp ]
       processors: [ batch ]
       exporters: [ otlp/jaeger ]
-    metrics:
-      receivers: [ otlp ]
-      processors: [ batch ]
-      exporters: [ prometheus ]
