@@ -1,4 +1,4 @@
-package com.minimart.ordersvc.models;
+package com.minimart.notificationsvc.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

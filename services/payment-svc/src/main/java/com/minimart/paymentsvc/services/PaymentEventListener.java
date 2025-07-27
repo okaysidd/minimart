@@ -45,4 +45,20 @@ public class PaymentEventListener {
             log.error("---", ex);
         }
     }
+
+    @KafkaListener(topics = "shipping.failed", groupId = "payment-svc")
+    public void onShippingFailed(ConsumerRecord<String, String> record) {
+        try {
+            log.info("---Shipping failed received: {}", record.value());
+            Map<String, Object> recordMap = objectMapper.readValue(record.value(), new TypeReference<Map<String, Object>>() {
+            });
+            long orderId = Long.parseLong(recordMap.get("orderId").toString());
+            double amount = Double.parseDouble(recordMap.get("amount").toString());
+
+            Payment payment = paymentProcessor.capturePayment(orderId, amount);
+            log.info("---Refund payment now");
+        } catch (Exception ex) {
+            log.error("---", ex);
+        }
+    }
 }

@@ -5,6 +5,9 @@ import com.minimart.ordersvc.models.OrderRequest;
 import com.minimart.ordersvc.models.OrderStatus;
 import com.minimart.ordersvc.models.PurchaseOrder;
 import com.minimart.ordersvc.repositories.IPurchaseOrderRepository;
+import io.opentelemetry.api.baggage.Baggage;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.context.Scope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -24,9 +27,17 @@ public class OrderService {
     public void placeOrderForInventoryCheck(OrderRequest request) {
         try {
             PurchaseOrder purchaseOrder = purchaseOrderRepository.save(request.toEntity());
+            String orderId = purchaseOrder.getId().toString();
+
+            Baggage baggage = Baggage.current().toBuilder().put("order.id", orderId).build();
+
+            try (Scope ignored = baggage.makeCurrent()) {
+                Span.current().setAttribute("order.id", orderId);
+            }
+            Span.current().setAttribute("order.id", orderId);
             kafka.send("checkout.requested", objectMapper.writeValueAsString(
                     Map.of(
-                            "orderId", purchaseOrder.getId().toString()
+                            "orderId", orderId
                     )
             ));
         } catch (Exception ex) {
@@ -39,6 +50,14 @@ public class OrderService {
         if (purchaseOrder == null) return;
 
         purchaseOrder.setOrderStatus(OrderStatus.FAILED);
+        purchaseOrderRepository.save(purchaseOrder);
+    }
+
+    public void markOrderConfirmed(long orderId) {
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(orderId).orElse(null);
+        if (purchaseOrder == null) return;
+
+        purchaseOrder.setOrderStatus(OrderStatus.CONFIRMED);
         purchaseOrderRepository.save(purchaseOrder);
     }
 }
