@@ -4,7 +4,7 @@ receivers:
       grpc:
       http:
   prometheusremotewrite:
-    endpoint: 0.0.0.0:9464
+    endpoint: 0.0.0.0:9465
 
 processors:
   batch:

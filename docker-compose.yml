@@ -128,6 +128,7 @@ services:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
       - "9464:9464"
+      - "9465:9465"
 
   prometheus:
     image: prom/prometheus:v2.52.0
@@ -145,5 +146,5 @@ services:
     image: grafana/k6:0.50.0
     entrypoint: [ "sh", "-c", "sleep infinity" ]
     environment:
-      K6_PROMETHEUS_RW_SERVER_URL: http://otel-collector:9464/api/v1/write
+      K6_PROMETHEUS_RW_SERVER_URL: http://otel-collector:9465/api/v1/write
     depends_on: [ otel-collector ]
